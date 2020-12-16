@@ -9,11 +9,14 @@ public class Runner {
 
 	public static void main(String[] args) {
 		
+		start();
+		
+	}
+	
+	private static void start() {
 		IMS ims = new IMS();
 		ims.imsSystem();
 		LOGGER.info("SO LONG!");
-		
-		
 	}
 
 }
