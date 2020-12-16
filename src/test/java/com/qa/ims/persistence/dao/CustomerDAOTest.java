@@ -18,7 +18,7 @@ public class CustomerDAOTest {
 
 	@BeforeClass
 	public static void init() {
-		DBUtils.connect("root", "pass");
+		DBUtils.connect();
 	}
 
 	@Before
@@ -54,7 +54,6 @@ public class CustomerDAOTest {
 	public void testUpdate() {
 		final Customer updated = new Customer(1L, "chris", "perrins");
 		assertEquals(updated, DAO.update(updated));
-
 	}
 
 	@Test

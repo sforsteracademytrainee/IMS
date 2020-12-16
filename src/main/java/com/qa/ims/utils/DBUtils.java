@@ -1,11 +1,14 @@
 package com.qa.ims.utils;
 
 import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Scanner;
 import java.util.stream.Stream;
 
 import org.apache.logging.log4j.LogManager;
@@ -19,12 +22,12 @@ public class DBUtils {
 
 	private final String DB_PASS;
 
-	private final String DB_URL = "jdbc:mysql://localhost:3306/ims";
+	private final String DB_URL;
 
-	private DBUtils(String username, String password) {
+	private DBUtils(String address, String username, String password) {
 		this.DB_USER = username;
 		this.DB_PASS = password;
-
+		this.DB_URL = "jdbc:mysql://" + address + ":3306/ims";
 		init();
 	}
 
@@ -68,14 +71,25 @@ public class DBUtils {
 
 	public static DBUtils instance;
 
-	public static DBUtils connect(String username, String password) {
-		instance = new DBUtils(username, password);
+	public static DBUtils connect() {
+		String[] details = new String[3];
+		try {
+			File myObj = new File("src\\main\\resources\\details");
+			Scanner myReader = new Scanner(myObj);
+			details[0] = myReader.nextLine();
+			details[1] = myReader.nextLine();
+			details[2] = myReader.nextLine();
+			myReader.close();
+		} catch (FileNotFoundException e) {
+			LOGGER.debug(e);
+		}
+		instance = new DBUtils(details[0], details[1], details[2]);
 		return instance;
 	}
 
 	public static DBUtils getInstance() {
 		if (instance == null) {
-			instance = new DBUtils("", "");
+			instance = new DBUtils("", "", "");
 		}
 		return instance;
 	}
