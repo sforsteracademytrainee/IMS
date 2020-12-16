@@ -5,13 +5,15 @@ public class Customer {
 	private Long id;
 	private String firstName;
 	private String surname;
+	private String email;
 
-	public Customer(String firstName, String surname) {
+	public Customer(String firstName, String surname, String email) {
 		this.firstName = firstName;
 		this.surname = surname;
+		this.email = email;
 	}
 
-	public Customer(Long id, String firstName, String surname) {
+	public Customer(Long id, String firstName, String surname, String email) {
 		this.id = id;
 		this.firstName = firstName;
 		this.surname = surname;
@@ -40,10 +42,18 @@ public class Customer {
 	public void setSurname(String surname) {
 		this.surname = surname;
 	}
+	
+	public String getEmail() {
+		return email;
+	}
+	
+	public void setEmail(String email) {
+		this.email = email;
+	}
 
 	@Override
 	public String toString() {
-		return "id:" + id + " first name:" + firstName + " surname:" + surname;
+		return "id: " + id + ", first name: " + firstName + ", surname: " + surname + ", email: " + email;
 	}
 
 	@Override

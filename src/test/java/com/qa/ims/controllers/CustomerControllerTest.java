@@ -31,8 +31,8 @@ public class CustomerControllerTest {
 
 	@Test
 	public void testCreate() {
-		final String F_NAME = "barry", L_NAME = "scott";
-		final Customer created = new Customer(F_NAME, L_NAME);
+		final String F_NAME = "barry", L_NAME = "scott", EMAIL = "bscott@yahoo.net";
+		final Customer created = new Customer(F_NAME, L_NAME, EMAIL);
 
 		Mockito.when(utils.getString()).thenReturn(F_NAME, L_NAME);
 		Mockito.when(dao.create(created)).thenReturn(created);
@@ -46,7 +46,7 @@ public class CustomerControllerTest {
 	@Test
 	public void testReadAll() {
 		List<Customer> customers = new ArrayList<>();
-		customers.add(new Customer(1L, "jordan", "harrison"));
+		customers.add(new Customer(1L, "Jordan", "Harrison", "jharrison@qa.com"));
 
 		Mockito.when(dao.readAll()).thenReturn(customers);
 
@@ -57,7 +57,7 @@ public class CustomerControllerTest {
 
 	@Test
 	public void testUpdate() {
-		Customer updated = new Customer(1L, "chris", "perrins");
+		Customer updated = new Customer(1L, "Chris", "Perrins", "cperrins@gmail.com");
 
 		Mockito.when(this.utils.getLong()).thenReturn(1L);
 		Mockito.when(this.utils.getString()).thenReturn(updated.getFirstName(), updated.getSurname());
