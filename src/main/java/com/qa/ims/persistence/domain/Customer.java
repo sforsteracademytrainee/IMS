@@ -17,6 +17,7 @@ public class Customer {
 		this.id = id;
 		this.firstName = firstName;
 		this.surname = surname;
+		this.email = email;
 	}
 
 	public Long getId() {
@@ -79,6 +80,11 @@ public class Customer {
 			if (other.surname != null)
 				return false;
 		} else if (!surname.equals(other.surname))
+			return false;
+		if (email == null) {
+			if (other.email != null)
+				return false;
+		} else if (!email.equals(other.email))
 			return false;
 		return true;
 	}
