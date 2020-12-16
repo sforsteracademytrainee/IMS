@@ -18,7 +18,7 @@ CREATE TABLE IF NOT EXISTS `ims`.`items` (
     `name` VARCHAR(40) NULL DEFAULT NULL,
     `value` FLOAT(20) NOT NULL DEFAULT 0,
     `category_id` INT(11) NULL DEFAULT NULL,
-    `quanity` INT(11) NOT NULL DEFAULT 0,
+    `quantity` INT(11) NOT NULL DEFAULT 0,
     PRIMARY KEY (`item_id`),
     FOREIGN KEY (`category_id`) REFERENCES `ims`.`categories`(`category_id`)
 );
