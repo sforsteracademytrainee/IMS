@@ -47,7 +47,8 @@ public class CustomerDAO implements Dao<Customer> {
 		}
 		return new ArrayList<>();
 	}
-
+	
+	@Override
 	public Customer readLatest() {
 		try (Connection connection = DBUtils.getInstance().getConnection();
 				Statement statement = connection.createStatement();
@@ -79,11 +80,13 @@ public class CustomerDAO implements Dao<Customer> {
 		}
 		return null;
 	}
-
-	public Customer readCustomer(Long id) {
+	
+	
+	@Override
+	public Customer read(Long id) {
 		try (Connection connection = DBUtils.getInstance().getConnection();
 				Statement statement = connection.createStatement();
-				ResultSet resultSet = statement.executeQuery("SELECT * FROM customers where customer_id = " + id);) {
+				ResultSet resultSet = statement.executeQuery("SELECT * FROM customers WHERE customer_id = " + id);) {
 			resultSet.next();
 			return modelFromResultSet(resultSet);
 		} catch (Exception e) {
@@ -104,9 +107,9 @@ public class CustomerDAO implements Dao<Customer> {
 	public Customer update(Customer customer) {
 		try (Connection connection = DBUtils.getInstance().getConnection();
 				Statement statement = connection.createStatement();) {
-			statement.executeUpdate("update customers set first_name ='" + customer.getFirstName() + "', surname ='"
-					+ customer.getSurname() + "', email='" + customer.getEmail() + "' where customer_id =" + customer.getId());
-			return readCustomer(customer.getId());
+			statement.executeUpdate("UPDATE customers SET first_name ='" + customer.getFirstName() + "', surname ='"
+					+ customer.getSurname() + "', email='" + customer.getEmail() + "' WHERE customer_id =" + customer.getId());
+			return read(customer.getId());
 		} catch (Exception e) {
 			LOGGER.debug(e);
 			LOGGER.error(e.getMessage());
@@ -123,7 +126,7 @@ public class CustomerDAO implements Dao<Customer> {
 	public int delete(long id) {
 		try (Connection connection = DBUtils.getInstance().getConnection();
 				Statement statement = connection.createStatement();) {
-			return statement.executeUpdate("delete from customers where customer_id = " + id);
+			return statement.executeUpdate("DELETE FROM customers WHERE customer_id = " + id);
 		} catch (Exception e) {
 			LOGGER.debug(e);
 			LOGGER.error(e.getMessage());
