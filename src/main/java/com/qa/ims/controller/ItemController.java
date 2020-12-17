@@ -28,7 +28,7 @@ public class ItemController implements CrudController<Item> {
 		for (Item item : items) {
 			LOGGER.info(item.toString());
 		}
-		return null;
+		return items;
 	}
 
 	@Override
