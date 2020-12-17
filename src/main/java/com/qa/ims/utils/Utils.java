@@ -31,6 +31,19 @@ public class Utils {
 		} while (longInput == null);
 		return longInput;
 	}
+	
+	public int getInt() {
+		String input = getString();
+		Integer intInput = null;
+		do {
+			try {
+				intInput = Integer.parseInt(input);
+			} catch (NumberFormatException nfe) {
+				LOGGER.info("Error - Please enter a number");
+			}
+		} while (intInput == null);
+		return intInput;
+	}
 
 	public String getString() {
 		return scanner.nextLine();
@@ -47,6 +60,19 @@ public class Utils {
 			}
 		} while (doubleInput == null);
 		return doubleInput;
+	}
+	
+	public float getFloat() {
+		String input = getString();
+		Float floatInput = null;
+		do {
+			try {
+				floatInput = Float.parseFloat(input);
+			} catch (NumberFormatException nfe) {
+				LOGGER.info("Error - Please enter a number");
+			}
+		} while (floatInput == null);
+		return floatInput;
 	}
 
 }
