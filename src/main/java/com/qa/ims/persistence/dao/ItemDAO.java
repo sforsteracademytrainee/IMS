@@ -15,7 +15,6 @@ import com.qa.ims.utils.DBUtils;
 
 public class ItemDAO implements Dao<Item> {
 	
-	
 	public static final Logger LOGGER = LogManager.getLogger();
 	
 	@Override
@@ -23,8 +22,8 @@ public class ItemDAO implements Dao<Item> {
 		Long id = resultSet.getLong("item_id");
 		String name = resultSet.getString("name");
 		float value = resultSet.getFloat("value");
-		int categoryId = resultSet.getInt("category_id");
-		int quantity = resultSet.getInt("quantity");
+		Long categoryId = resultSet.getLong("category_id");
+		Long quantity = resultSet.getLong("quantity");
 		return new Item(id, name, value, categoryId, quantity);
 	}
 	

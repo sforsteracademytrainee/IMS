@@ -5,22 +5,22 @@ public class Item {
 	private Long id;
 	private String name;
 	private float value;
-	private int categoryId; // TODO make sure we are using the right data types for the job?
-	private int quantity;
+	private Long categoryId;
+	private Long quantity;
 	
-	public Item(String name, float value, int categoryId, int quantity) {
+	public Item(String name, float value, Long categoryId, Long quantity) {
 		this.name = name;
 		this.value = value;
 		this.categoryId = categoryId;
 		this.quantity = quantity;
 	}
 	
-	public Item(String name, float value, int categoryId) {
+	public Item(String name, float value, Long categoryId) {
 		// new item with initial quantity of 0
-		this(name, value, categoryId, 0);
+		this(name, value, categoryId, 0L);
 	}
 	
-	public Item(Long id, String name, float value, int categoryId, int quantity) {
+	public Item(Long id, String name, float value, Long categoryId, Long quantity) {
 		this(name, value, categoryId, quantity);
 		this.id = id;
 	}
@@ -49,19 +49,19 @@ public class Item {
 		this.value = value;
 	}
 
-	public int getCategoryId() {
+	public Long getCategoryId() {
 		return categoryId;
 	}
 
-	public void setCategoryId(int categoryId) {
+	public void setCategoryId(Long categoryId) {
 		this.categoryId = categoryId;
 	}
 
-	public int getQuantity() {
+	public Long getQuantity() {
 		return quantity;
 	}
 
-	public void setQuantity(int quantity) {
+	public void setQuantity(Long quantity) {
 		this.quantity = quantity;
 	}
 	

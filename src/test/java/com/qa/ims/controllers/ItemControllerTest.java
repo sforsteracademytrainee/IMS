@@ -46,19 +46,19 @@ public class ItemControllerTest {
 	public void testCreate() {
 		final String NAME = "Football";
 		final float VALUE = 14.99f;
-		final int CATEGORY = 1, QUANTITY = 64;
+		final Long CATEGORY = 1L, QUANTITY = 64L;
 		final Item created = new Item(NAME, VALUE, CATEGORY, QUANTITY);
 		
 		Mockito.when(utils.getString()).thenReturn(NAME);
 		Mockito.when(utils.getFloat()).thenReturn(VALUE);
-		Mockito.when(utils.getInt()).thenReturn(CATEGORY, QUANTITY);
+		Mockito.when(utils.getLong()).thenReturn(CATEGORY, QUANTITY);
 		Mockito.when(dao.create(created)).thenReturn(created);
 		
 		assertEquals(created, controller.create());
 		
 		Mockito.verify(utils, Mockito.times(1)).getString();
 		Mockito.verify(utils, Mockito.times(1)).getFloat();
-		Mockito.verify(utils, Mockito.times(2)).getInt();
+		Mockito.verify(utils, Mockito.times(2)).getLong();
 		
 		Mockito.verify(dao, Mockito.times(1)).create(created);
 	}
@@ -66,7 +66,7 @@ public class ItemControllerTest {
 	@Test
 	public void testReadAll() {
 		List<Item> items = new ArrayList<>();
-		items.add(new Item(1L, "Frying Pan", 15.99f, 1, 46));
+		items.add(new Item(1L, "Frying Pan", 15.99f, 1L, 46L));
 		
 		Mockito.when(dao.readAll()).thenReturn(items);
 		
@@ -76,20 +76,24 @@ public class ItemControllerTest {
 	}
 	
 	@Test
-	public void testUpdate() {
-		Item updated = new Item(1L, "Football", 14.99f, 1, 64);
+	public void testUpdate() { // TODO test is broken
+		Item updated = new Item(1L, "Football", 14.99f, 1L, 64L);
 		
 		Mockito.when(utils.getLong()).thenReturn(updated.getId());
 		Mockito.when(utils.getString()).thenReturn(updated.getName());
 		Mockito.when(utils.getFloat()).thenReturn(updated.getValue());
-		Mockito.when(utils.getInt()).thenReturn(updated.getCategoryId(), updated.getQuantity());
+		Mockito.when(utils.getLong()).thenReturn(updated.getCategoryId(), updated.getQuantity());
 		Mockito.when(dao.update(updated)).thenReturn(updated);
+		
+		
 		
 		assertEquals(updated, controller.update());
 		
+		
 		Mockito.verify(utils, Mockito.times(1)).getLong();
 		Mockito.verify(utils, Mockito.times(1)).getString();
-		Mockito.verify(utils, Mockito.times(2)).getInt();
+		Mockito.verify(utils, Mockito.times(1)).getFloat();
+		Mockito.verify(utils, Mockito.times(2)).getLong();
 		Mockito.verify(dao, Mockito.times(1)).update(updated);
 	}
 	

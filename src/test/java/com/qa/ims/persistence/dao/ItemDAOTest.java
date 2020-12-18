@@ -28,32 +28,32 @@ public class ItemDAOTest {
 		
 	@Test
 	public void testCreate() {
-		final Item created = new Item(2L, "Football", 14.99f, 1, 64);
+		final Item created = new Item(2L, "Football", 14.99f, 1L, 64L);
 		assertEquals(created, DAO.create(created));
 	}
 	
 	@Test
 	public void testReadAll() {
 		List<Item> expected = new ArrayList<>();
-		expected.add(new Item(1L, "Frying Pan", 15.99f, 1, 46));
+		expected.add(new Item(1L, "Frying Pan", 15.99f, 1L, 46L));
 		// add extra sql-data items if we add test data
 		assertEquals(expected, DAO.readAll());
 	}
 	
 	@Test
 	public void testReadLatest() {
-		assertEquals(new Item(1L, "Frying Pan", 15.99f, 1, 46), DAO.readLatest());
+		assertEquals(new Item(1L, "Frying Pan", 15.99f, 1L, 46L), DAO.readLatest());
 	}
 	
 	@Test
 	public void testRead() {
 		final long ID = 1L;
-		assertEquals(new Item(1L, "Frying Pan", 15.99f, 1, 46), DAO.read(ID));
+		assertEquals(new Item(1L, "Frying Pan", 15.99f, 1L, 46L), DAO.read(ID));
 	}
 	
 	@Test
 	public void testUpdate() {
-		final Item updated = new Item(1L, "Used Frying Pan", 14.99f, 1, 48);
+		final Item updated = new Item(1L, "Used Frying Pan", 14.99f, 1L, 48L);
 		assertEquals(updated, DAO.update(updated));
 	}
 	
