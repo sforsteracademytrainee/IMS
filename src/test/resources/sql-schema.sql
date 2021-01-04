@@ -27,7 +27,7 @@ CREATE TABLE IF NOT EXISTS `ims`.`orders` (
     `customer_id` INT(11) NULL DEFAULT NULL,
     `date` DATE NULL DEFAULT NULL,
     PRIMARY KEY (`order_id`),
-    FOREIGN KEY (`customer_id`) REFERENCES `ims`.`customers`(`customer_id`)
+    FOREIGN KEY (`customer_id`) REFERENCES `ims`.`customers`(`customer_id`) ON DELETE CASCADE
 );
 CREATE TABLE IF NOT EXISTS `ims`.`order_items` (
 	`order_items_id` INT(11) NOT NULL AUTO_INCREMENT,

@@ -25,7 +25,7 @@ public class ItemController implements CrudController<Item> {
 	@Override
 	public List<Item> readAll() {
 		List<Item> items = itemDAO.readAll();
-		for (Item item : items) {
+		for (Item item: items) {
 			LOGGER.info(item.toString());
 		}
 		return items;
