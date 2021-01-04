@@ -73,12 +73,15 @@ public class Order {
 	public Long removeItem(Long itemId, Long quantity) {
 		// if you try to remove more items than there exists in the list, it will return null
 		if (items.keySet().contains(itemId)) {
-			if (items.get(itemId) >= quantity) {
+			if (items.get(itemId) > quantity) {
 				items.put(itemId, items.get(itemId) - quantity);
 				return items.get(itemId);
-			} else return null;
+			} else if (items.get(itemId) == quantity) {
+				items.remove(itemId);
+				return 0L;
+			} else return null; // removing more items than there are in the order (can't have a negative quantity)
 		}
-		return null;
+		return 0L;
 	}
 	
 	public Long getItemQuantity(Long itemId) {
@@ -94,5 +97,7 @@ public class Order {
 		items.forEach((k, v) -> orderString.append("\n- item id: " + k + ", quantity: " + v));
 		return orderString.toString();
 	}
+	
+	// TODO equals function
 	
 }

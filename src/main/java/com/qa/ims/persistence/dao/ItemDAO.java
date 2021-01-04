@@ -101,7 +101,7 @@ public class ItemDAO implements Dao<Item> {
 		}
 		return null;
 	}
-
+	
 	@Override
 	public int delete(long id) {
 		try (Connection connection = DBUtils.getInstance().getConnection();

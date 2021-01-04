@@ -35,6 +35,7 @@ CREATE TABLE IF NOT EXISTS `ims`.`order_items` (
 	`item_id` INT(11) NULL DEFAULT NULL,
 	`quantity` INT(11) NULL DEFAULT NULL,
 	PRIMARY KEY (`order_items_id`),
-	FOREIGN KEY (`order_id`) REFERENCES `ims`.`orders`(`order_id`),
-	FOREIGN KEY (`item_id`) REFERENCES `ims`.`items`(`item_id`)
+	FOREIGN KEY (`order_id`) REFERENCES `ims`.`orders`(`order_id`) ON DELETE CASCADE,
+	FOREIGN KEY (`item_id`) REFERENCES `ims`.`items`(`item_id`) ON DELETE CASCADE
+	
 );
