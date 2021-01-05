@@ -41,6 +41,8 @@ public class OrderController implements CrudController<Order> {
 			customers.put(c.getId(), c);
 		}
 		
+		LOGGER.info("\nLIST OF ALL ORDERS:");
+		
 		for (Order o: orders) {
 			StringBuilder itemString = new StringBuilder();
 			Customer cust = customers.get(o.getCustomerId());
@@ -48,18 +50,18 @@ public class OrderController implements CrudController<Order> {
 			for (Long l: o.getItems().keySet()) {
 				Item item = items.get(l);
 				float sum = item.getValue()*o.getItems().get(l);
-				itemString.append("\n  " + o.getItems().get(l) + " " + item.getName() + " £" + item.getValue() + " £" + sum);
+				itemString.append("\n |   " + o.getItems().get(l) + " " + item.getName() + " £" + item.getValue() + " £" + sum);
 				total += sum;
 			}
-			itemString.insert(0, "Customer: " + cust.getFirstName() + " " + cust.getSurname() + ", Date: " + o.getDate() + ", Order id: " + o.getId() + "\n  Total: £" + total);
+			itemString.insert(0, " / Customer: " + cust.getFirstName() + " " + cust.getSurname() + ", Date: " + o.getDate() + ", Order id: " + o.getId());
+			itemString.append("\n |   Total: £" + total);
 			LOGGER.info(itemString);
 		}
 		
-		LOGGER.info("");
 		return orders;
 	}
 	
-	private void printFullOrder(Order o) {
+	public String printFullOrder(Order o) {
 		HashMap<Long, Item> items = getItemMap();
 		
 		StringBuilder itemString = new StringBuilder();
@@ -68,24 +70,29 @@ public class OrderController implements CrudController<Order> {
 		for (Long l: o.getItems().keySet()) {
 			Item item = items.get(l);
 			float sum = item.getValue()*o.getItems().get(l);
-			itemString.append("\n  " + o.getItems().get(l) + " " + item.getName() + " £" + item.getValue() + " £" + sum);
+			itemString.append("\n |   " + o.getItems().get(l) + " " + item.getName() + " £" + item.getValue() + " £" + sum);
 			total += sum;
 		}
-		itemString.insert(0, "Customer: " + cust.getFirstName() + " " + cust.getSurname() + ", Date: " + o.getDate() + ", Order id: " + o.getId() + "\n  Total: £" + total);
-		LOGGER.info(itemString);
+		itemString.insert(0, " / Customer: " + cust.getFirstName() + " " + cust.getSurname() + ", Date: " + o.getDate() + ", Order id: " + o.getId());
+		itemString.append("\n |   Total: £" + total);
+		return itemString.toString();
 	}
 	
 	@Override
 	public Order create() {
+		LOGGER.info("\nCREATING AN ORDER:");
 		HashMap<Long, Item> itemList = getItemMap();
 		
 		boolean finished = false;
 		HashMap<Long, Long> items = new HashMap<Long, Long>();
 		float total = 0f;
 		do {
-			LOGGER.info("Please enter the item id");
+			LOGGER.info("\nPlease enter the item id (enter 0 to finish order)");
 			Long id = utils.getLong(); 
-			if (itemList.keySet().contains(id)) {
+			if (id == 0L) {
+				finished = true;
+			} if (itemList.keySet().contains(id)) {
+			
 				Item item = itemList.get(id);
 				Long stockQ = item.getQuantity();
 				LOGGER.info("There are currently " + stockQ + " " + item.getName() + " in stock");
@@ -97,19 +104,15 @@ public class OrderController implements CrudController<Order> {
 					LOGGER.info("Not enough " + item.getName() + "in stock to fulfill this order");
 				}
 			}
-			LOGGER.info("Would you like to add another item? (yes/no)");
-			String choice = utils.getString().toLowerCase();
-			if (choice.equals("no")) {
-				finished = true;
-			}
 		} while (!finished);
 		for (Long l: items.keySet()) {
 			total += items.get(l)*itemList.get(l).getValue();
 		}
-		LOGGER.info("Total cost of order is: £" + total);
+		LOGGER.info("\nTotal cost of order is: £" + total);
 		
 		LOGGER.info("Please enter a valid customer id (enter 0 to cancel order)"); // maybe replace with email as it's more accessible?
 		Long customerId = utils.getLong();
+		
 		
 		if (items.isEmpty()) {
 			LOGGER.info("Cannot create an empty order\n");
@@ -118,19 +121,25 @@ public class OrderController implements CrudController<Order> {
 			LOGGER.info("Cancelled order\n");
 			return null;
 		} else {
-			LOGGER.info("Order placed\n");
+			for (Long l: items.keySet()) {
+				Item newItem = itemList.get(l);
+				newItem.setQuantity(newItem.getQuantity() - items.get(l));
+				itemDAO.update(newItem);
+			}
+			LOGGER.info("Order placed for customer " + customerId);
 			return orderDAO.create(new Order(customerId, items));
 		}
 	}
 
 	@Override
 	public Order update() {
-		LOGGER.info("What order id would you like to update?");
+		LOGGER.info("\nUPDATING AN ORDER:\nWhat order id would you like to update?");
 		Long id = utils.getLong();
 		Order order = orderDAO.read(id);
+		LOGGER.info("\n" + printFullOrder(order));
 		boolean finished = false;
 		do {
-			LOGGER.info("What would you like to update?");
+			LOGGER.info("\nWhat would you like to update?");
 			LOGGER.info("CUSTOMER: To edit customer id");
 			LOGGER.info("ITEMS: To edit items");
 			LOGGER.info("STOP: To stop editing");
@@ -149,14 +158,15 @@ public class OrderController implements CrudController<Order> {
 				break;
 			}
 		} while (!finished);
-		orderDAO.update(order);
+		order = orderDAO.update(order);
+		LOGGER.info("Finished editing order " + order.getId());
 		// what would you like to update? 
 		return order;
 	}
 	
 	private Order updateCustomerId(Order order) {
-		LOGGER.info("The current customer id is: " + order.getCustomerId());
-		LOGGER.info("What would you like to change it to?");
+		LOGGER.info("\n" + printFullOrder(order));
+		LOGGER.info("\nWhat customer ID would you like to change to?");
 		Long id = utils.getLong();
 		boolean exists = false;
 		for (Customer cust: customerDAO.readAll()) {
@@ -165,7 +175,7 @@ public class OrderController implements CrudController<Order> {
 		
 		if (exists) {
 			order.setCustomerId(id);
-			LOGGER.info("Succesfully updated customer id");
+			LOGGER.info("Succesfully updated customer id to " + id);
 		} else LOGGER.info("Not a valid customer id");
 		return order;
 	}
@@ -174,11 +184,10 @@ public class OrderController implements CrudController<Order> {
 		boolean finished = false;
 		
 		do {
-			int size = order.getItems().size();
-			LOGGER.info("What would you like to do");
+			LOGGER.info("\n" + printFullOrder(order));
+			LOGGER.info("\nWhat would you like to do");
 			LOGGER.info("ADD: To add another item");
 			LOGGER.info("REMOVE: To remove an item");
-			LOGGER.info("READ: To read order");
 			LOGGER.info("STOP: To stop editing items");
 			String choice = utils.getString().toLowerCase();
 			switch (choice) {
@@ -187,9 +196,6 @@ public class OrderController implements CrudController<Order> {
 				break;
 			case "remove":
 				order = removeItems(order);
-				break;
-			case "read":
-				printFullOrder(order);
 				break;
 			case "stop":
 				finished = true;
@@ -205,7 +211,7 @@ public class OrderController implements CrudController<Order> {
 		HashMap<Long, Item> items = getItemMap();
 		boolean finished = false;
 		do {
-			LOGGER.info("What item id would you like to add (enter 0 to stop adding)");
+			LOGGER.info("\nWhat item id would you like to add (enter 0 to stop adding)");
 			Long id = utils.getLong();
 			if (items.keySet().contains(id)) {
 				Item item = items.get(id);
@@ -230,12 +236,12 @@ public class OrderController implements CrudController<Order> {
 			if (size == 1) {
 				for (Long id: order.getItems().keySet()) {
 					if (order.getItems().get(id) <= 1) {
-						LOGGER.info("Cannot remove any items, order would be empty (delete or add items if you want to modify this order)");
+						LOGGER.info("Cannot remove any items, order would be empty (delete the order or add items if you want to modify this order)");
 						return order;
 					}
 				}
 			}
-			LOGGER.info("What item id would you like to remove (enter 0 to stop removing)");
+			LOGGER.info("\nWhat item id would you like to remove (enter 0 to stop removing)");
 			LOGGER.info("Note: Cannot leave an order empty so it must contain at least 1 item at all times");
 			Long id = utils.getLong();
 			if (order.getItems().keySet().contains(id)) {
@@ -255,6 +261,7 @@ public class OrderController implements CrudController<Order> {
 						Long quantity = utils.getLong();
 						if (quantity <= orderQ - 1) {
 							order.removeItem(id, quantity);
+							LOGGER.info("Successfully removed " + quantity + " " + items.get(id).getName());
 						} else {
 							LOGGER.info("Tried to remove too many items");
 						}
@@ -276,7 +283,7 @@ public class OrderController implements CrudController<Order> {
 
 	@Override
 	public int delete() {
-		LOGGER.info("Please enter the order id you wish to delete");
+		LOGGER.info("\nDELETING AN ORDER:\nPlease enter the order id you wish to delete");
 		Long id = utils.getLong();
 		int value = orderDAO.delete(id);
 		if (value == 0) {

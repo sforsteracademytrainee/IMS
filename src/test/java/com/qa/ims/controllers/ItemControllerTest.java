@@ -76,24 +76,19 @@ public class ItemControllerTest {
 	}
 	
 	@Test
-	public void testUpdate() { // TODO test is broken
+	public void testUpdate() { 
 		Item updated = new Item(1L, "Football", 14.99f, 1L, 64L);
 		
-		Mockito.when(utils.getLong()).thenReturn(updated.getId());
+		Mockito.when(utils.getLong()).thenReturn(updated.getId(), updated.getCategoryId(), updated.getQuantity());
 		Mockito.when(utils.getString()).thenReturn(updated.getName());
 		Mockito.when(utils.getFloat()).thenReturn(updated.getValue());
-		Mockito.when(utils.getLong()).thenReturn(updated.getCategoryId(), updated.getQuantity());
-		Mockito.when(dao.update(updated)).thenReturn(updated);
-		
-		
+		Mockito.when(this.dao.update(updated)).thenReturn(updated);
 		
 		assertEquals(updated, controller.update());
 		
-		
-		Mockito.verify(utils, Mockito.times(1)).getLong();
+		Mockito.verify(utils, Mockito.times(3)).getLong();
 		Mockito.verify(utils, Mockito.times(1)).getString();
 		Mockito.verify(utils, Mockito.times(1)).getFloat();
-		Mockito.verify(utils, Mockito.times(2)).getLong();
 		Mockito.verify(dao, Mockito.times(1)).update(updated);
 	}
 	
@@ -104,7 +99,7 @@ public class ItemControllerTest {
 		Mockito.when(utils.getLong()).thenReturn(ID);
 		Mockito.when(dao.delete(ID)).thenReturn(1);
 
-		assertEquals(1L, this.controller.delete());
+		assertEquals(1, this.controller.delete());
 
 		Mockito.verify(utils, Mockito.times(1)).getLong();
 		Mockito.verify(dao, Mockito.times(1)).delete(ID);

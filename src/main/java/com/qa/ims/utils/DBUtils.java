@@ -86,7 +86,13 @@ public class DBUtils {
 		instance = new DBUtils(details[0], details[1], details[2]);
 		return instance;
 	}
-
+	
+	public static DBUtils connectFail() {
+		instance = new DBUtils("AAA", "BBB", "CCC");
+		return instance;
+	}
+	
+	
 	public static DBUtils getInstance() {
 		if (instance == null) {
 			instance = new DBUtils("", "", "");

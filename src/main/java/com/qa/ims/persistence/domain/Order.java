@@ -79,9 +79,9 @@ public class Order {
 			} else if (items.get(itemId) == quantity) {
 				items.remove(itemId);
 				return 0L;
-			} else return null; // removing more items than there are in the order (can't have a negative quantity)
+			}
 		}
-		return 0L;
+		return null;
 	}
 	
 	public Long getItemQuantity(Long itemId) {
@@ -98,6 +98,36 @@ public class Order {
 		return orderString.toString();
 	}
 	
-	// TODO equals function
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Order other = (Order) obj;
+		if (id == null) {
+			if (other.id != null)
+				return false;
+		} else if (!id.equals(other.id))
+			return false;
+		if (customerId == null) {
+			if (other.customerId != null)
+				return false;
+		} else if (!customerId.equals(other.customerId))
+			return false;
+		if (date == null) {
+			if (other.date != null)
+				return false;
+		} else if (!date.equals(other.date))
+			return false;
+		if (items == null) {
+			if (other.items != null)
+				return false;
+		} else if (!items.equals(other.items))
+			return false;
+		return true;
+	}
 	
 }

@@ -1,6 +1,7 @@
 package com.qa.ims.persistence.dao;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 
 import java.util.List;
 import java.util.ArrayList;
@@ -12,13 +13,13 @@ import org.junit.Test;
 import com.qa.ims.persistence.domain.Item;
 import com.qa.ims.utils.DBUtils;
 
-public class ItemDAOTest {
+public class ItemDAOTestFail {
 	
 	private final ItemDAO DAO = new ItemDAO();
 	
 	@BeforeClass
 	public static void init() {
-		DBUtils.connect();
+		DBUtils.connectFail();
 	}
 	
 	@Before
@@ -29,38 +30,34 @@ public class ItemDAOTest {
 	@Test
 	public void testCreate() {
 		final Item created = new Item(3L, "Football", 14.99f, 1L, 64L);
-		assertEquals(created, DAO.create(created));
+		assertNull(DAO.create(created));
 	}
 	
 	@Test
 	public void testReadAll() {
-		List<Item> expected = new ArrayList<>();
-		expected.add(new Item(1L, "Frying Pan", 15.99f, 1L, 46L));
-		expected.add(new Item(2L, "Kettle", 24.99f, 1L, 57L));
-		// add extra sql-data items if we add test data
-		assertEquals(expected, DAO.readAll());
+		assertEquals(new ArrayList<>(), DAO.readAll());
 	}
 	
 	@Test
 	public void testReadLatest() {
-		assertEquals(new Item(2L, "Kettle", 24.99f, 1L, 57L), DAO.readLatest());
+		assertNull(DAO.readLatest());
 	}
 	
 	@Test
 	public void testRead() {
 		final long ID = 1L;
-		assertEquals(new Item(1L, "Frying Pan", 15.99f, 1L, 46L), DAO.read(ID));
+		assertNull(DAO.read(ID));
 	}
 	
 	@Test
 	public void testUpdate() {
 		final Item updated = new Item(1L, "Used Frying Pan", 14.99f, 1L, 48L);
-		assertEquals(updated, DAO.update(updated));
+		assertNull(DAO.update(updated));
 	}
 	
 	@Test
 	public void testDelete() {
-		assertEquals(1, DAO.delete(1L));
+		assertEquals(0, DAO.delete(1L));
 	}
 	
 }
