@@ -1,7 +1,7 @@
-Coverage: 34%
-# Project Title
+Coverage: 81%
+# IMS
 
-One Paragraph of project description goes here
+Invntory Management System for a shop, it keeps track of customer details, purchaseable items and their details as well as customer details.
 
 ## Getting Started
 
@@ -10,6 +10,8 @@ These instructions will get you a copy of the project up and running on your loc
 ### Prerequisites
 
 What things you need to install the software and how to install them
+
+You will need to have installed MySQL running on a server as well as the JDBC drivers.
 
 ```
 Give examples
@@ -21,8 +23,14 @@ A step by step series of examples that tell you how to get a development env run
 
 Say what the step will be
 
+
+You need a details.txt file in src/main/resources following the format:
+
+
 ```
-Give the example
+hostaddress
+username
+password
 ```
 
 And repeat

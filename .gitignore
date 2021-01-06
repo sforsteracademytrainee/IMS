@@ -4,4 +4,4 @@ bin/
 .*
 !.gitignore
 *.log
-src/main/resources/details
+src/main/resources/details.txt

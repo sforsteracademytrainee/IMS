@@ -24,23 +24,24 @@ public class ItemController implements CrudController<Item> {
 	
 	@Override
 	public List<Item> readAll() {
+		LOGGER.info("\nLIST OF ALL ITEMS:");
 		List<Item> items = itemDAO.readAll();
-		for (Item item : items) {
-			LOGGER.info(item.toString());
+		for (Item item: items) {
+			LOGGER.info(" | " + item.toString());
 		}
 		return items;
 	}
 
 	@Override
 	public Item create() {
-		LOGGER.info("Please enter a name");
+		LOGGER.info("\nCREATING AN ITEM:\nPlease enter a name");
 		String name = utils.getString();
 		LOGGER.info("Please enter a value");
 		float value = utils.getFloat();
-		LOGGER.info("Please enter a category (1 for General)");
-		int category = utils.getInt();
+		//LOGGER.info("Please enter a category (1 for General)");
+		Long category = 1L;
 		LOGGER.info("Please enter a quantity");
-		int quantity = utils.getInt();
+		Long quantity = utils.getLong();
 		Item item = itemDAO.create(new Item(name, value, category, quantity));
 		LOGGER.info("Item created");
 		return item;
@@ -48,24 +49,26 @@ public class ItemController implements CrudController<Item> {
 
 	@Override
 	public Item update() {
-		LOGGER.info("Please enter the id of the item you would like to update");
+		LOGGER.info("\nUPDATING AN ITEM\nPlease enter the id of the item you would like to update");
 		Long id = utils.getLong();
 		LOGGER.info("Please enter a name");
 		String name = utils.getString();
 		LOGGER.info("Please enter a value");
 		float value = utils.getFloat();
-		LOGGER.info("Please enter a category (1 for General)");
-		int category = utils.getInt();
+		//LOGGER.info("Please enter a category (1 for General)");
+		Long category = 1L;
 		LOGGER.info("Please enter a quantity");
-		int quantity = utils.getInt();
+		Long quantity = utils.getLong();
+		
 		Item item = itemDAO.update(new Item(id, name, value, category, quantity));
+		LOGGER.info(item);
 		LOGGER.info("Item updated");
 		return item;
 	}
 
 	@Override
 	public int delete() {
-		LOGGER.info("Please enter the id of the item you would like to delete");
+		LOGGER.info("\nDELETING AN ITEM\nPlease enter the id of the item you would like to delete");
 		Long id = utils.getLong();
 		return itemDAO.delete(id);
 	}
