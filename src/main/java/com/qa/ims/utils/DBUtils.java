@@ -74,7 +74,7 @@ public class DBUtils {
 	public static DBUtils connect() {
 		String[] details = new String[3];
 		try {
-			File myObj = new File("src\\main\\resources\\details");
+			File myObj = new File("src\\main\\resources\\details.txt");
 			Scanner myReader = new Scanner(myObj);
 			details[0] = myReader.nextLine();
 			details[1] = myReader.nextLine();
