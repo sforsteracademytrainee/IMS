@@ -8,6 +8,7 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import com.qa.ims.Details;
 import com.qa.ims.persistence.domain.Customer;
 import com.qa.ims.utils.DBUtils;
 
@@ -17,7 +18,8 @@ public class CustomerDAOTest {
 
 	@BeforeClass
 	public static void init() {
-		DBUtils.connect();
+		String[] details = Details.getDetails();
+		DBUtils.connect(details[0], details[1]);
 	}
 
 	@Before

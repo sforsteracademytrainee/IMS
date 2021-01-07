@@ -1,97 +1,84 @@
 Coverage: 81%
 # IMS
 
-Invntory Management System for a shop, it keeps track of customer details, purchaseable items and their details as well as customer details.
+Inventory Management System for a shop, it keeps track of customer details, purchasable items and their details as well as creating orders using the previous details.
 
 ## Getting Started
 
-These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.
+These instructions will get you a copy of the project up and running on your local machine for development and testing purposes.
 
 ### Prerequisites
 
-What things you need to install the software and how to install them
-
-You will need to have installed MySQL running on a server as well as the JDBC drivers.
-
-```
-Give examples
-```
+An instance of MySQL server 5.7
 
 ### Installing
 
-A step by step series of examples that tell you how to get a development env running
+You can download a working jar from [here](https://github.com/sforsteracademytrainee/IMS/raw/documentation.core/ims-1.0.0-with-dependencies.jar).
+The provided jar build only works with a localhost database.
 
-Say what the step will be
+If you wish to build the project yourself here are the instructions.
 
+Import this project from github as a Maven project.
 
-You need a details.txt file in src/main/resources following the format:
+You will need to edit the contents of the `DBUtils` class with your own database host url in the `connect` function.
+
+```
+public static DBUtils connect(String username, String password) {
+	instance = new DBUtils("yourhost", username, password);
+	return instance;
+}
+```
+
+You will also have to enter your database login details for the tests in the `Details` class in the test tree.
 
 
 ```
-hostaddress
-username
-password
+private static final String DB_USER = "youruser";
+
+private static final String DB_PASS = "yourpass";
 ```
 
-And repeat
-
-```
-until finished
-```
-
-End with an example of getting some data out of the system or using it for a little demo
+Once this is done you should test the program using the provided tests. If it all goes by you can build the project.
 
 ## Running the tests
 
-Explain how to run the automated tests for this system. Break down into which tests and what they do
+You can run all all the tests by using `mvn test` in a command prompt at the project folder. Make sure you have entered database details in the `Details` class as described above in the test packages.
+
+All the tests are located in the `src/test` folder.
+
+The tests make sure that the database connection is functional and that the user input is handled correctly.
+
+Currently we have an 81% test coverage.
+![text](https://i.imgur.com/O9waSOw.png)
 
 ### Unit Tests 
 
-Explain what these tests test, why and how to run them
+The unit tests make sure that the interaction with the database is correct.
 
-```
-Give an example
-```
+They are located in the `persistence.dao` package of the test folder. There is also a test for the `Order` object in the `domain` package. They are performed using JUnit 4.12.
 
 ### Integration Tests 
-Explain what these tests test, why and how to run them
 
-```
-Give an example
-```
+The integration tests are here to check if the correct actions are done when giving input to the controllers. These tests do not require a database connection as database results are mocked.
+
+They are located in the `controllers` package. We used Mockito 3.2.4 for this project.
 
 ### And coding style tests
 
-Explain what these tests test and why
-
-```
-Give an example
-```
-
-## Deployment
-
-Add additional notes about how to deploy this on a live system
+We are currently not using coding style tests.
 
 ## Built With
 
 * [Maven](https://maven.apache.org/) - Dependency Management
 
-## Versioning
-
-We use [SemVer](http://semver.org/) for versioning.
 
 ## Authors
 
-* **Chris Perrins** - *Initial work* - [christophperrins](https://github.com/christophperrins)
+* **J Harry** - *Initial work* - [JHarry444](https://github.com/JHarry444)
+* **Simon Forster** - *Continued work* - [sforsteracademytrainee](https://github.com/sforsteracademytrainee)
 
 ## License
 
 This project is licensed under the MIT license - see the [LICENSE.md](LICENSE.md) file for details 
 
 *For help in [Choosing a license](https://choosealicense.com/)*
-
-## Acknowledgments
-
-* Hat tip to anyone whose code was used
-* Inspiration
-* etc

@@ -35,10 +35,15 @@ public class IMS {
 	}
 
 	public void imsSystem() {
-
+		
 		// TODO implement login system at this point in the program
 		
-		DBUtils.connect();
+		LOGGER.info("What is your username?");
+		String username = utils.getString();
+		LOGGER.info("What is your password?");
+		String password = utils.getString();
+		
+		DBUtils.connect(username, password);
 		Domain domain = null;
 		do {
 			LOGGER.info("\nWhich entity would you like to use?");

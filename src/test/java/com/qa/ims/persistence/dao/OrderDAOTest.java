@@ -11,6 +11,7 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import com.qa.ims.Details;
 import com.qa.ims.persistence.domain.Order;
 import com.qa.ims.utils.DBUtils;
 
@@ -20,7 +21,9 @@ public class OrderDAOTest {
 	
 	@BeforeClass
 	public static void init() {
-		DBUtils.connect();
+		String[] details = Details.getDetails();
+		System.out.println(details[0] + details[1]);
+		DBUtils.connect(details[0], details[1]);
 	}
 	
 	@Before
