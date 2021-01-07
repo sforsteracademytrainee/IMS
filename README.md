@@ -13,6 +13,7 @@ An instance of MySQL server 5.7
 
 ### Installing
 
+You can download a working jar from [here](https://github.com/sforsteracademytrainee/IMS/raw/documentation.core/ims-1.0.0-with-dependencies.jar).
 The provided jar build only works with a localhost database.
 
 If you wish to build the project yourself here are the instructions.
