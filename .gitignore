@@ -1,7 +1,7 @@
 .settings/
 target/
 bin/
+documentation/
 .*
 !.gitignore
 *.log
-src/main/resources/details.txt

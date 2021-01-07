@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -32,7 +33,7 @@ public class DBUtils {
 	}
 
 	public int init() {
-		return this.init("src/main/resources/sql-schema.sql", "src/main/resources/sql-data.sql");
+		return this.init("src/main/resources/sql-schema.sql"); // "src/main/resources/sql-data.sql"
 	}
 
 	public int init(String... paths) {
@@ -71,19 +72,8 @@ public class DBUtils {
 
 	public static DBUtils instance;
 
-	public static DBUtils connect() {
-		String[] details = new String[3];
-		try {
-			File myObj = new File("src\\main\\resources\\details.txt");
-			Scanner myReader = new Scanner(myObj);
-			details[0] = myReader.nextLine();
-			details[1] = myReader.nextLine();
-			details[2] = myReader.nextLine();
-			myReader.close();
-		} catch (FileNotFoundException e) {
-			LOGGER.debug(e);
-		}
-		instance = new DBUtils(details[0], details[1], details[2]);
+	public static DBUtils connect(String username, String password) {
+		instance = new DBUtils("yourhost", username, password);
 		return instance;
 	}
 	
