@@ -9,6 +9,8 @@ These instructions will get you a copy of the project up and running on your loc
 
 ### Prerequisites
 
+Java Development Kit 14
+
 An instance of MySQL server 5.7
 
 ### Installing
