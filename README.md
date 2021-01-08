@@ -38,7 +38,7 @@ private static final String DB_USER = "youruser";
 private static final String DB_PASS = "yourpass";
 ```
 
-Once this is done you should test the program using the provided tests. If it all goes by you can build the project.
+Once this is done you should test the program using the provided tests. If it all goes by you can build the project with the command `mvn clean package`. The working jar will be called `ims-x.x.x-jar-with-dependencies.jar`.
 
 ## Running the tests
 
