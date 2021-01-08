@@ -1,0 +1,147 @@
+@startuml
+package com.qa.ims.persistence.domain {
+class Customer {
+-id: Long
+-firstName: String
+-lastName: String
+-email: String
+__
++<<getters/setters>>()
+}
+class Item {
+-id: Long
+-name: String
+-value: Float
+-categoryId: Long
+-quantity: Long
+__
++<<getters/setters>>()
+}
+class Order {
+-id: Long
+-customerId: Long
+-date: LocalDate
+-items: HashMap<Long, Long>
+__
++<<getters/setters>>()
+}
+enum Domain {
+CUSTOMER
+ITEM
+ORDER
+STOP
++void {static} printDomains()
++{static}getDomain(): Domain
++getDescription(): String
+}
+}
+
+package com.qa.ims {
+class Runner {
++void {static}main(String[] args)()
+-void {static} start()
+}
+class IMS {
+-customers: CustomerController
+-items: ItemController
+-orders: OrderController
+-utils: Utils
++void imsSystem()
++void doAction()
+}
+}
+
+package com.qa.ims.persistence.dao {
+interface Dao<T> {
++modelFromResultSet(r: ResultSet): T
++readAll(): List<T>
++readLatest(): T
++read(id: Long): T
++create(t T): T
++update(t T): T
++delete(t T): T
+}
+class CustomerDAO implements Dao
+class ItemDAO implements Dao
+class OrderDAO implements Dao
+}
+
+package com.qa.ims.controller {
+interface CrudController<T> {
++readAll(): List<T>
++create(): T
++update(): T
++delete(): T
+}
+class CustomerController implements CrudController {
+-customerDAO: CustomerDAO
+-utils: Utils
+}
+class ItemController implements CrudController {
+-itemDAO: ItemDAO
+-utils: Utils
+}
+class OrderController implements CrudController {
+-orderDAO: OrderDAO
+-customerDAO: CustomerDAO
+-itemDAO: ItemDAO
+-utils: Utils
++printFullOrder(o: Order): String
+-updateCustomerId(o: Order): Order
+-updateItems(o: Order): Order
+-addItems(o: Order): Order
+-removeItems(o: Order): Order
+}
+}
+
+package com.qa.ims.utils {
+class Utils {
+-scanner: Scanner
++getLong(): Long
++getInt(): Int
++getString(): String
++getDouble(): Double
++getFloat(): Float
+}
+class DBUtils {
+-DB_USER: String
+-DB_PASS: String
+-DB_URL: String
+-instance: DBUtils
++executeSQLFile(String): int
++getConnection(): Connection
++{static} connect(): DBUtils
+}
+}
+
+Order "0..*" -- "1" Customer
+Order "0..*" -- "1..*" Item
+
+CustomerDAO o-- Customer
+ItemDAO o-- Item
+OrderDAO o-- Order
+OrderDAO o-- Customer
+OrderDAO o-- Item
+
+IMS *-- "1" CustomerController
+IMS *-- "1" ItemController
+IMS *-- "1" OrderController
+IMS o-- Domain
+
+Runner o-- "1" IMS
+
+CustomerController *-- "1" CustomerDAO
+ItemController *-- "1" ItemDAO
+OrderController *-- "1" OrderDAO
+OrderController *-- "1" CustomerDAO
+OrderController *-- "1" ItemDAO
+
+CustomerDAO o-- DBUtils
+ItemDAO o-- DBUtils
+OrderDAO o-- DBUtils
+
+CustomerController o-- "1" Utils
+ItemController o-- "1" Utils
+OrderController o-- "1" Utils
+IMS *-- "1" Utils
+@enduml

@@ -32,8 +32,9 @@ public class CustomerController implements CrudController<Customer> {
 	@Override
 	public List<Customer> readAll() {
 		List<Customer> customers = customerDAO.readAll();
+		LOGGER.info("\nLIST OF ALL CUSTOMERS:");
 		for (Customer customer : customers) {
-			LOGGER.info(customer.toString());
+			LOGGER.info(" | " + customer.toString());
 		}
 		return customers;
 	}
@@ -43,11 +44,13 @@ public class CustomerController implements CrudController<Customer> {
 	 */
 	@Override
 	public Customer create() {
-		LOGGER.info("Please enter a first name");
+		LOGGER.info("\nCREATING A CUSTOMER:\nPlease enter a first name");
 		String firstName = utils.getString();
 		LOGGER.info("Please enter a surname");
 		String surname = utils.getString();
-		Customer customer = customerDAO.create(new Customer(firstName, surname));
+		LOGGER.info("Please enter an email");
+		String email = utils.getString();
+		Customer customer = customerDAO.create(new Customer(firstName, surname, email));
 		LOGGER.info("Customer created");
 		return customer;
 	}
@@ -57,14 +60,16 @@ public class CustomerController implements CrudController<Customer> {
 	 */
 	@Override
 	public Customer update() {
-		LOGGER.info("Please enter the id of the customer you would like to update");
+		LOGGER.info("\nUPDATING A CUSTOMER:\nPlease enter the id of the customer you would like to update");
 		Long id = utils.getLong();
 		LOGGER.info("Please enter a first name");
 		String firstName = utils.getString();
 		LOGGER.info("Please enter a surname");
 		String surname = utils.getString();
-		Customer customer = customerDAO.update(new Customer(id, firstName, surname));
-		LOGGER.info("Customer Updated");
+		LOGGER.info("Please enter an email");
+		String email = utils.getString();
+		Customer customer = customerDAO.update(new Customer(id, firstName, surname, email));
+		LOGGER.info("Customer updated");
 		return customer;
 	}
 
@@ -75,7 +80,7 @@ public class CustomerController implements CrudController<Customer> {
 	 */
 	@Override
 	public int delete() {
-		LOGGER.info("Please enter the id of the customer you would like to delete");
+		LOGGER.info("\nDELETING A CUSTOMER:\nPlease enter the id of the customer you would like to delete");
 		Long id = utils.getLong();
 		return customerDAO.delete(id);
 	}

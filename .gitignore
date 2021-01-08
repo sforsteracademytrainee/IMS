@@ -4,4 +4,3 @@ bin/
 .*
 !.gitignore
 *.log
-
