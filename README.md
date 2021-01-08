@@ -7,11 +7,13 @@ Inventory Management System for a shop, it keeps track of customer details, purc
 
 These instructions will get you a copy of the project up and running on your local machine for development and testing purposes.
 
+You can find my Kanban board [here](https://20novsimontest.atlassian.net/secure/RapidBoard.jspa?rapidView=4&useStoredSettings=true&atlOrigin=eyJpIjoiMGFhZWI2MmU1ZGExNDMxZjkyNTE2YWQ4YTIxZmFlZDkiLCJwIjoiaiJ9) and my SCRUM board [here](https://20novsimontest.atlassian.net/secure/RapidBoard.jspa?rapidView=5&atlOrigin=eyJpIjoiYzZiNzNiMzMwYjE1NGQwNDgwNTFhODI2ODIzN2RmYmYiLCJwIjoiaiJ9) (I have multiple boards because I made a mistake at the start).
+
 ### Prerequisites
 
-Java Development Kit 14
+* Java Development Kit 14
 
-An instance of MySQL server 5.7
+* An instance of MySQL server 5.7
 
 ### Installing
 
